@@ -1,0 +1,7 @@
+{
+  "name": "redSocialBuenasPracticas_lgomdom",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

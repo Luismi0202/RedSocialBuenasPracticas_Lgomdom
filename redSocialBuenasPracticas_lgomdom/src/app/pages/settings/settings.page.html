@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Métricas (App B)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-note>
+    Métricas organizadas por categorías y buenas prácticas. En App B se aplican técnicas de optimización,
+    por lo que los KPIs deberían mejorar frente a App A.
+  </ion-note>
+
+  <ion-accordion-group style="margin-top: 12px;">
+    <ion-accordion *ngFor="let cat of catalog" [value]="cat.code">
+      <ion-item slot="header">
+        <ion-label>
+          <b>{{ cat.code }}.</b> {{ cat.title }}
+        </ion-label>
+      </ion-item>
+
+      <div slot="content" style="padding: 8px 8px 0 8px;">
+        <div *ngFor="let bp of cat.practices" style="margin-bottom: 14px;">
+          <ion-note><b>{{ bp.code }}:</b> {{ bp.title }}</ion-note>
+
+          <ion-list>
+            <ion-item *ngFor="let k of bp.kpis">
+              <ion-label class="ion-text-wrap">
+                <div style="display:flex; justify-content:space-between; gap:10px;">
+                  <div>
+                    <b>{{ k.name }}</b>
+                    <div style="margin-top: 4px;">
+                      <ion-note>{{ k.description }}</ion-note>
+                    </div>
+                    <div style="margin-top: 6px;">
+                      <ion-note>
+                        Fuente: <b>{{ sourceLabel(k.source) }}</b>
+                        <span *ngIf="k.target"> · Objetivo: <b>{{ k.target }}</b></span>
+                      </ion-note>
+                    </div>
+                  </div>
+                  <div style="min-width: 110px; text-align:right;">
+                    <ion-note><b>{{ displayValue(k) }}</b></ion-note>
+                  </div>
+                </div>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <div style="display:flex; gap: 10px; margin-top: 16px;">
+    <ion-button expand="block" (click)="reset()">Reset métricas</ion-button>
+    <ion-button expand="block" fill="outline" (click)="refresh()">Refrescar (bien)</ion-button>
+  </div>
+
+  <div style="margin-top: 12px;">
+    <ion-button expand="block" (click)="back()">Volver</ion-button>
+  </div>
+
+</ion-content>

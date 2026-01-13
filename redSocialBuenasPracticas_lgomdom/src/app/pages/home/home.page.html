@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Social A (Anti-patrones)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [scrollEvents]="true" (ionScroll)="onScroll()">
+
+  <ion-item>
+    <ion-input
+      placeholder="Buscar en posts..."
+      (ionInput)="onInput($event)">
+    </ion-input>
+  </ion-item>
+
+  <ion-note *ngIf="error" color="danger">{{ error }}</ion-note>
+
+  <ng-container *ngIf="(loading$ | async); else dataTpl">
+    <div style="margin-top: 12px;">
+      <ion-spinner></ion-spinner>
+      <ion-note> Cargando...</ion-note>
+    </div>
+  </ng-container>
+
+  <ng-template #dataTpl>
+    <ion-list *ngIf="(visible$ | async) as items">
+      <ion-item *ngFor="let p of items; trackBy: trackByPostId" (click)="openPost(p)">
+        <ion-label class="ion-text-wrap">
+          <b>{{ prettyTitle(p) }}</b>
+          <div>{{ p.body }}</div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div style="display:flex; justify-content:center; margin-top: 8px;">
+      <ion-button fill="outline" (click)="loadMore()">Cargar más</ion-button>
+    </div>
+  </ng-template>
+
+  <div style="margin-top: 12px;">
+    <ion-note>Render items: <b>{{ kpi.kpis.renderItems }}</b></ion-note><br />
+    <ion-note>Subs activas (aprox): <b>{{ kpi.kpis.activeSubscriptions }}</b></ion-note>
+  </div>
+
+  <div style="display:flex; gap: 10px; margin-top: 16px;">
+    <ion-button expand="block" fill="outline" (click)="goSettings()">Métricas</ion-button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Post {{ postId }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-note *ngIf="title"><b>{{ title }}</b></ion-note>
+  <ion-note *ngIf="error" color="danger">{{ error }}</ion-note>
+
+  <ng-container *ngIf="(loading$ | async); else dataTpl">
+    <div style="margin-top: 12px;">
+      <ion-spinner></ion-spinner>
+      <ion-note> Cargando comentarios...</ion-note>
+    </div>
+  </ng-container>
+
+  <ng-template #dataTpl>
+    <ion-list *ngIf="(comments$ | async) as comments">
+      <ion-item *ngFor="let c of comments; trackBy: trackByCommentId">
+        <ion-label class="ion-text-wrap">
+          <b>{{ c.name }}</b>
+          <div>{{ prettyEmail(c.email) }}</div>
+          <div>{{ c.body }}</div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+
+  <div style="margin-top: 12px;">
+    <ion-note>Render items: <b>{{ kpi.kpis.renderItems }}</b></ion-note><br />
+    <ion-note>Subs activas (aprox): <b>{{ kpi.kpis.activeSubscriptions }}</b></ion-note>
+  </div>
+
+  <div style="display:flex; gap: 10px; margin-top: 16px;">
+    <ion-button expand="block" (click)="back()">Volver</ion-button>
+    <ion-button expand="block" fill="outline" (click)="goSettings()">Métricas</ion-button>
+  </div>
+
+</ion-content>
